@@ -1,0 +1,11 @@
+# Kết quả build (Cloudflare tự build lại từ mã nguồn)
+website/
+node_modules/
+.wrangler/
+# Link ngắn + xác nhận tham dự tạo khi xem thử trên máy (trên Cloudflare lưu ở KV)
+lien-ket.local.json
+xac-nhan.local.json
+
+# Ảnh gốc độ phân giải cao / file zip của cặp đôi (giữ trên máy, không đưa lên repo)
+anh-goc/
+*.zip

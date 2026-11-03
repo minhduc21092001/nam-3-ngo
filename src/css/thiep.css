@@ -1,0 +1,64 @@
+/*
+ * Chỉnh thêm cho thiệp (nạp sau tailwind.css + hieu-ung.css).
+ * tailwind.css là CSS đã biên dịch sẵn của mẫu: class Tailwind tuỳ ý viết thêm (vd. h-[61px]) KHÔNG có tác dụng
+ * nếu mẫu chưa từng dùng — muốn chỉnh thì viết rule ở file này.
+ */
+/* (không đặt scroll-behavior: smooth — tự cuộn của thiệp đặt vị trí từng khung hình) */
+body { margin: 0; }
+body.chua-mo { overflow: hidden; }
+
+/* ---------------------------------------------------------- màn mở thiệp */
+/* Chuỗi mở thiệp như mẫu: dấu sáp vỡ 0.5s → lá bay + thẻ bay lên 0.8s → bỏ màn ở 1.3s (xem thiep.js) */
+#mm-nut { -webkit-tap-highlight-color: transparent; }
+#man-mo.bay #mm-bay { animation: envelope-away .8s ease-in forwards; } /* 0,5 giây sau khi bấm, sau khi hoa đã bay */
+#man-mo.dang-mo #mm-dau { animation: seal-break .5s cubic-bezier(.4, 0, .2, 1) forwards !important; }
+#man-mo.dang-mo #mm-dau img { animation: seal-flower-bloom .36s ease-out forwards; }
+#mm-vong { position: absolute; left: 50%; top: 50px; width: 56px; height: 56px; border-radius: 9999px; border: 3px solid #7c6a60;
+  transform: translate(-50%, -50%); z-index: 29; pointer-events: none; animation: seal-ring .6s ease-out forwards; }
+#mm-anh-sang { position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .3s;
+  background: radial-gradient(ellipse at center top, rgba(124, 106, 96, .2) 0%, transparent 70%); }
+#man-mo.dang-mo #mm-anh-sang { opacity: 1; }
+.mm-hat { position: absolute; left: 50%; top: 50%; pointer-events: none; animation: particle-burst 1.4s cubic-bezier(.25, .46, .45, .94) forwards; }
+#mm-hat-bay { position: absolute; inset: 0; z-index: 100; pointer-events: none; }
+/* dòng tên khách (chỉ hiện khi mở bằng link riêng) */
+.mm-khach:has([data-khach-moi]:empty) { display: none; }
+.mm-khach { line-height: 1.2; }
+
+/* ---------------------------------------------------------- nút nhạc: đang dừng = nốt nhạc; đang phát = đĩa quay + sóng nhạc.
+   Vòng lan + bong bóng "Chạm để phát nhạc" chỉ hiện khi trình duyệt chặn tự phát (như mẫu). */
+#nut-nhac.dang-dung .nhac-song,
+#nut-nhac.dang-phat .nhac-not { display: none; }
+#nut-nhac .nhac-vong { display: none; }
+#nut-nhac.bi-chan:not(.dang-phat) .nhac-vong { display: block; }
+#nut-nhac.dang-phat .nhac-dia { animation: spin-cd 3s linear infinite; }
+body.chua-mo #nut-nhac { visibility: hidden; }
+
+/* ---------------------------------------------------------- album 3D */
+#album { touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+#album [data-album-anh] { will-change: transform, opacity; }
+#album [data-album-anh].dang-xem { box-shadow: 0 0 0 2px rgba(255, 255, 255, .3), 0 20px 25px -5px rgba(0, 0, 0, .1), 0 8px 10px -6px rgba(0, 0, 0, .1); }
+
+
+/* ---------------------------------------------------------- popup xác nhận tham dự */
+
+/* ---------------------------------------------------------- sổ lưu bút */
+/* chưa có lời chúc nào: mẫu đặt khoảng cách phía trên khối cuối là 65px (0 khi màn ≥ 464px) */
+.lc-trong > div:last-child { margin-top: 65px; }
+@media (min-width: 464px) { .lc-trong > div:last-child { margin-top: 0; } }
+#ds-loi-chuc p { white-space: pre-line; overflow-wrap: anywhere; }
+
+/* ---------------------------------------------------------- hộp quà */
+#hop-qua .qua-tk img { image-rendering: pixelated; }
+
+/* ---------------------------------------------------------- thông báo nhỏ */
+.thong-bao {
+  position: fixed; left: 50%; bottom: 96px; z-index: 10000; max-width: min(90vw, 360px);
+  transform: translate(-50%, 20px); opacity: 0; pointer-events: none;
+  padding: 10px 16px; border-radius: 999px; background: rgba(60, 48, 42, .92); color: #fff;
+  font: 500 14px/1.4 Montserrat, system-ui, sans-serif; text-align: center;
+  transition: opacity .25s, transform .25s;
+}
+.thong-bao.hien { opacity: 1; transform: translate(-50%, 0); }
+
+/* Popup xác nhận dùng phông Montserrat như mẫu */
+#xac-nhan, .thong-bao { font-family: Montserrat, ui-sans-serif, system-ui, sans-serif; }

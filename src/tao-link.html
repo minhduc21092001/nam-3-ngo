@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Tạo link thiệp cưới – {{@ten-ben}}</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 22'%3E%3Cpath fill='%237c6a60' d='M12 21S1.5 13.5 1.5 7.5A5.5 5.5 0 0 1 12 4.8 5.5 5.5 0 0 1 22.5 7.5C22.5 13.5 12 21 12 21z'/%3E%3C/svg%3E">
+<style>
+  @font-face{font-family:"EB Garamond";src:url({{@duong-dan-goc}}fonts/EBGaramond-Variable.ttf)format("truetype");font-weight:400 800;font-display:swap}
+  @font-face{font-family:Montserrat;src:url({{@duong-dan-goc}}fonts/montserrat-vietnamese.9e2672d1.woff2)format("woff2");font-weight:300 700;font-display:swap;unicode-range:u+102-103,u+110-111,u+128-129,u+168-169,u+1a0-1a1,u+1af-1b0,u+300-301,u+303-304,u+308-309,u+323,u+329,u+1ea0-1ef9,u+20ab}
+  @font-face{font-family:Montserrat;src:url({{@duong-dan-goc}}fonts/montserrat-latin-ext.920711de.woff2)format("woff2");font-weight:300 700;font-display:swap;unicode-range:u+100-2ba,u+2bd-2c5,u+2c7-2cc,u+2ce-2d7,u+2dd-2ff,u+1e00-1e9f,u+1ef2-1eff,u+2020,u+20a0-20ab,u+20ad-20c0,u+2113,u+2c60-2c7f,u+a720-a7ff}
+  @font-face{font-family:Montserrat;src:url({{@duong-dan-goc}}fonts/montserrat-latin.6438d7b8.woff2)format("woff2");font-weight:300 700;font-display:swap;unicode-range:u+0000-00ff,u+131,u+152-153,u+2bb-2bc,u+2c6,u+2da,u+2dc,u+2000-206f,u+20ac,u+2122,u+2191,u+2193,u+2212,u+2215,u+feff,u+fffd}
+</style>
+<style>
+  /* Màu theo mẫu thiệp (Minimalism Nâu) */
+  :root { --hong: #7c6a60; --hong-nhat: #f6eadd; --chu: #4a3b33; --vien: #e8dacd; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; font-family: Montserrat, system-ui, sans-serif; color: var(--chu);
+    background: linear-gradient(160deg, #fff7f3 0%, #f3e6da 100%);
+    display: flex; justify-content: center; padding: 32px 16px;
+  }
+  main { width: 100%; max-width: 560px; }
+  h1 { font-family: "EB Garamond", serif; font-style: italic; font-weight: 400; font-size: 44px; text-align: center; margin: 0; color: var(--hong); }
+  .phu { text-align: center; margin: 0 0 24px; opacity: .75; }
+  .the {
+    background: #fff; border: 1px solid var(--vien); border-radius: 18px; padding: 22px;
+    box-shadow: 0 10px 30px rgba(124, 106, 96, .15); margin-bottom: 18px;
+  }
+  label { display: block; font-weight: 700; margin: 0 0 6px; }
+  label small { font-weight: 400; opacity: .7; }
+  input {
+    width: 100%; padding: 12px 14px; border: 1px solid var(--vien); border-radius: 12px;
+    font: inherit; color: inherit; margin-bottom: 16px; background: #fffcf8;
+  }
+  input:focus { outline: 2px solid var(--hong); border-color: transparent; }
+  .ket-qua {
+    display: flex; gap: 8px; align-items: center; background: var(--hong-nhat); border-radius: 12px;
+    padding: 10px 12px; word-break: break-all; font-weight: 600; min-height: 46px;
+  }
+  .ket-qua span { flex: 1; }
+  .ket-qua.trong { color: #a8918a; font-weight: 400; }
+  .nut-hang { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+  button, .nut {
+    border: 0; border-radius: 12px; padding: 11px 16px; font: inherit; font-weight: 700; cursor: pointer;
+    background: var(--hong); color: #fff; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
+  }
+  button.phu-nut, .nut.phu-nut { background: #fff; color: var(--hong); border: 1px solid var(--hong); }
+  button:disabled, .nut[aria-disabled=true] { opacity: .45; pointer-events: none; }
+  .canh-bao { color: #b45309; font-size: 14px; margin: -8px 0 14px; display: none; }
+  h2 { font-size: 18px; margin: 0 0 12px; display: flex; justify-content: space-between; align-items: center; }
+  h2 button { padding: 6px 10px; font-size: 13px; }
+  ul { list-style: none; margin: 0; padding: 0; }
+  li { border-top: 1px dashed var(--vien); padding: 10px 0; display: flex; gap: 8px; align-items: center; }
+  li:first-child { border-top: 0; }
+  li .tt { flex: 1; min-width: 0; }
+  li .tt b { display: block; }
+  li .tt a { color: var(--chu); opacity: .7; font-size: 13px; word-break: break-all; }
+  li button { padding: 7px 10px; font-size: 13px; }
+  .trong-rong { opacity: .6; font-size: 14px; }
+  .thong-bao {
+    position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%) translateY(20px); opacity: 0;
+    background: var(--chu); color: #fff; padding: 10px 18px; border-radius: 999px; transition: .25s; pointer-events: none;
+  }
+  .thong-bao.hien { opacity: 1; transform: translateX(-50%); }
+  .nut-tao { width: 100%; justify-content: center; font-size: 17px; padding: 13px; margin: 2px 0 8px; }
+  .xem-truoc { font-size: 13px; opacity: .75; margin: 0 0 12px; min-height: 1em; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Tạo link thiệp cưới</h1>
+  <p class="phu"><b>Thiệp {{@ten-ben}}</b> — mọi link tạo ở đây đều mở thiệp {{@ten-ben}}, mỗi link có tiêu đề riêng khi gửi.</p>
+
+  <section class="the">
+    <label for="tieu-de">Người nhận <small>(tự thành “Mời …” khi gửi link, và hiện ở dòng tên khách trên thiệp)</small></label>
+    <input id="tieu-de" placeholder="Ví dụ: Anh Đức và người thương" autocomplete="off" autofocus>
+    <p class="canh-bao" id="canh-bao"></p>
+
+    <div id="o-mat-khau" hidden>
+      <label for="mat-khau">Mật khẩu tạo link</label>
+      <input id="mat-khau" type="password" autocomplete="current-password">
+    </div>
+
+    <label for="web">Địa chỉ website thiệp</label>
+    <input id="web" value="{{@dia-chi-website}}" autocomplete="off">
+
+    <button id="nut-tao" class="nut-tao" disabled>✨ Tạo link</button>
+    <p class="xem-truoc" id="xem-truoc"></p>
+
+    <div class="ket-qua trong" id="ket-qua"><span>Link sẽ hiện ở đây…</span></div>
+    <div class="nut-hang">
+      <button id="nut-chep" disabled>📋 Sao chép link</button>
+      <a class="nut phu-nut" id="nut-mo" target="_blank" rel="noopener" aria-disabled="true">👀 Mở thử</a>
+    </div>
+  </section>
+
+  <section class="the">
+    <h2>Link đã lưu <button class="phu-nut" id="nut-xoa-het" hidden>Xoá hết</button></h2>
+    <ul id="danh-sach"></ul>
+    <p class="trong-rong" id="trong-rong">Chưa có link nào. Danh sách chỉ lưu trên trình duyệt này.</p>
+  </section>
+</main>
+<div class="thong-bao" id="thong-bao"></div>
+
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var BEN = '{{@ben}}';
+  var KHOA_LUU = 'thiep-cuoi-link-da-tao-' + BEN;
+  var KHOA_MAT_KHAU = 'thiep-cuoi-mat-khau-tao-link';
+  // Tên thư mục có thật trong website/ — không dùng làm link để tránh trùng (giống chung/lien-ket.mjs)
+  var TEN_DANH_RIENG = ['anh', 'css', 'js', 'fonts', 'nhac', 'tao-link', 'api', 'index', '404', 'nha-trai', 'nha-gai', 'thong-ke'];
+
+  // Lần đầu mở trên website thật: lấy luôn địa chỉ đang chạy
+  var web = $('web');
+  if (/ten-mien-cua-ban/.test(web.value) && /^https?:$/.test(location.protocol)) {
+    web.value = location.href.replace(/tao-link\/?(index\.html)?([?#].*)?$/, '');
+  }
+  function goc() { return web.value.trim().replace(/\/*$/, '/'); }
+
+  function taoDuongDan(tieuDe) {
+    var s = tieuDe.normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D')
+      .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60).replace(/-+$/, '');
+    if (TEN_DANH_RIENG.indexOf(s) >= 0) s += '-1';
+    return s;
+  }
+  // Tên hiện ở dòng "Thư Mời" trên thiệp: bỏ chữ "Mời" ở đầu nếu người dùng đã gõ
+  function tenKhach(t) { return t.replace(/^mời\s+/i, '').trim() || t; }
+  function phanMoi(t) { return /^mời(\s|$)/i.test(t) ? t : 'Mời ' + t; }
+
+  var hienTai = null;
+  function datKetQua(kq) {
+    hienTai = kq;
+    var o = $('ket-qua');
+    o.classList.toggle('trong', !kq);
+    o.firstElementChild.textContent = kq ? kq.link : 'Link sẽ hiện ở đây…';
+    $('nut-chep').disabled = !kq;
+    var mo = $('nut-mo');
+    mo.setAttribute('aria-disabled', String(!kq));
+    if (kq) mo.href = kq.link; else mo.removeAttribute('href');
+  }
+  function capNhat() {
+    datKetQua(null); // nội dung đã đổi: phải bấm "Tạo link" lại
+    var tieuDe = $('tieu-de').value.trim();
+    var hopLe = !!taoDuongDan(tieuDe);
+    $('nut-tao').disabled = !hopLe;
+    var cb = $('canh-bao');
+    cb.style.display = tieuDe && !hopLe ? 'block' : 'none';
+    cb.textContent = 'Tiêu đề cần có ít nhất một chữ cái hoặc chữ số.';
+    $('xem-truoc').textContent = hopLe ? 'Khi gửi sẽ hiện: “… – ' + phanMoi(tieuDe) + '”. Trên thiệp: “' + tenKhach(tieuDe) + '”' : '';
+  }
+
+  function thongBao(chu) {
+    var tb = $('thong-bao');
+    tb.textContent = chu;
+    tb.classList.add('hien');
+    clearTimeout(thongBao.hen);
+    thongBao.hen = setTimeout(function () { tb.classList.remove('hien'); }, 2200);
+  }
+  function chep(chu) {
+    var xong = function () { thongBao('Đã sao chép link!'); };
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(chu).then(xong, function () { chepCu(chu); xong(); });
+    } else { chepCu(chu); xong(); }
+  }
+  function chepCu(chu) {
+    var t = document.createElement('textarea');
+    t.value = chu; document.body.appendChild(t); t.select();
+    document.execCommand('copy'); document.body.removeChild(t);
+  }
+
+  // Gửi lên máy chủ để lấy link ngắn (máy chủ nhớ tiêu đề + tên khách của link)
+  function taoLink() {
+    var tieuDe = $('tieu-de').value.trim();
+    var khach = tenKhach(tieuDe);
+    if (!taoDuongDan(tieuDe)) return;
+    var nut = $('nut-tao');
+    nut.disabled = true;
+    nut.textContent = '⏳ Đang tạo…';
+    var matKhau = $('mat-khau').value || localStorage.getItem(KHOA_MAT_KHAU) || '';
+    fetch(new URL('{{@duong-dan-goc}}api/tao-link', location.href), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nguoiNhan: tieuDe, ben: BEN, matKhau: matKhau }),
+    }).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (d) { return { r: r, d: d }; });
+    }).then(function (x) {
+      if (x.r.status === 401) {
+        $('o-mat-khau').hidden = false;
+        $('mat-khau').focus();
+        localStorage.removeItem(KHOA_MAT_KHAU);
+        thongBao(x.d.loi || 'Cần mật khẩu để tạo link.');
+        return;
+      }
+      if (!x.r.ok || !x.d.duongDan) throw new Error(x.d.loi || 'Máy chủ lỗi ' + x.r.status);
+      if (matKhau) localStorage.setItem(KHOA_MAT_KHAU, matKhau);
+      xong({ tieuDe: tieuDe, khach: khach, link: goc() + x.d.duongDan });
+      thongBao('Đã tạo link!');
+    }).catch(function () {
+      // Máy chủ chưa có chức năng link ngắn (vd. mở file trực tiếp, hoặc deploy kiểu kéo thả): dùng link dài tạm
+      xong({ tieuDe: tieuDe, khach: khach, link: goc() + taoDuongDan(tieuDe) + (khach ? '?khach=' + encodeURIComponent(khach) : '') });
+      thongBao('Chưa kết nối được máy chủ link ngắn — tạm dùng link dài.');
+    }).then(function () {
+      nut.disabled = false;
+      nut.textContent = '✨ Tạo link';
+    });
+  }
+  function xong(kq) {
+    datKetQua(kq);
+    var ds = docDanhSach().filter(function (m) { return m.link !== kq.link; });
+    ds.unshift(kq);
+    ghiDanhSach(ds);
+  }
+
+  function docDanhSach() {
+    try { return JSON.parse(localStorage.getItem(KHOA_LUU)) || []; } catch (e) { return []; }
+  }
+  function ghiDanhSach(ds) {
+    localStorage.setItem(KHOA_LUU, JSON.stringify(ds));
+    veDanhSach();
+  }
+  function veDanhSach() {
+    var ds = docDanhSach(), ul = $('danh-sach');
+    ul.innerHTML = '';
+    ds.forEach(function (muc, i) {
+      var li = document.createElement('li');
+      var tt = document.createElement('div'); tt.className = 'tt';
+      var b = document.createElement('b'); b.textContent = muc.tieuDe + (muc.khach && muc.khach !== muc.tieuDe && muc.khach !== muc.tieuDe.replace(/^mời\s+/i, '') ? ' — ' + muc.khach : '');
+      var a = document.createElement('a'); a.href = muc.link; a.target = '_blank'; a.rel = 'noopener'; a.textContent = muc.link;
+      tt.appendChild(b); tt.appendChild(a);
+      var chepBtn = document.createElement('button'); chepBtn.textContent = 'Sao chép';
+      chepBtn.onclick = function () { chep(muc.link); };
+      var xoa = document.createElement('button'); xoa.className = 'phu-nut'; xoa.textContent = 'Xoá';
+      xoa.onclick = function () { ds.splice(i, 1); ghiDanhSach(ds); };
+      li.appendChild(tt); li.appendChild(chepBtn); li.appendChild(xoa);
+      ul.appendChild(li);
+    });
+    $('trong-rong').hidden = ds.length > 0;
+    $('nut-xoa-het').hidden = ds.length === 0;
+  }
+
+  ['tieu-de'].forEach(function (id) {
+    $(id).addEventListener('input', capNhat);
+    $(id).addEventListener('keydown', function (e) { if (e.key === 'Enter' && !$('nut-tao').disabled) taoLink(); });
+  });
+  web.addEventListener('input', function () { datKetQua(null); });
+  $('nut-tao').onclick = taoLink;
+  $('nut-chep').onclick = function () { if (hienTai) chep(hienTai.link); };
+  $('nut-xoa-het').onclick = function () { if (confirm('Xoá toàn bộ danh sách link đã lưu?')) ghiDanhSach([]); };
+
+  capNhat();
+  veDanhSach();
+})();
+</script>
+</body>
+</html>

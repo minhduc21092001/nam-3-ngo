@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Thống kê xác nhận tham dự – {{@ten-ben}}</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 22'%3E%3Cpath fill='%237c6a60' d='M12 21S1.5 13.5 1.5 7.5A5.5 5.5 0 0 1 12 4.8 5.5 5.5 0 0 1 22.5 7.5C22.5 13.5 12 21 12 21z'/%3E%3C/svg%3E">
+<style>
+  @font-face{font-family:"EB Garamond";src:url({{@duong-dan-goc}}fonts/EBGaramond-Variable.ttf)format("truetype");font-weight:400 800;font-display:swap}
+  @font-face{font-family:Montserrat;src:url({{@duong-dan-goc}}fonts/montserrat-vietnamese.9e2672d1.woff2)format("woff2");font-weight:300 700;font-display:swap;unicode-range:u+102-103,u+110-111,u+128-129,u+168-169,u+1a0-1a1,u+1af-1b0,u+300-301,u+303-304,u+308-309,u+323,u+329,u+1ea0-1ef9,u+20ab}
+  @font-face{font-family:Montserrat;src:url({{@duong-dan-goc}}fonts/montserrat-latin-ext.920711de.woff2)format("woff2");font-weight:300 700;font-display:swap;unicode-range:u+100-2ba,u+2bd-2c5,u+2c7-2cc,u+2ce-2d7,u+2dd-2ff,u+1e00-1e9f,u+1ef2-1eff,u+2020,u+20a0-20ab,u+20ad-20c0,u+2113,u+2c60-2c7f,u+a720-a7ff}
+  @font-face{font-family:Montserrat;src:url({{@duong-dan-goc}}fonts/montserrat-latin.6438d7b8.woff2)format("woff2");font-weight:300 700;font-display:swap;unicode-range:u+0000-00ff,u+131,u+152-153,u+2bb-2bc,u+2c6,u+2da,u+2dc,u+2000-206f,u+20ac,u+2122,u+2191,u+2193,u+2212,u+2215,u+feff,u+fffd}
+</style>
+<style>
+  /* Màu theo mẫu thiệp (Minimalism Nâu) */
+  :root { --hong: #7c6a60; --hong-nhat: #f6eadd; --chu: #4a3b33; --vien: #e8dacd; --xanh: #2f6b3a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; font-family: Montserrat, system-ui, sans-serif; color: var(--chu);
+    background: linear-gradient(160deg, #fff7f3 0%, #f3e6da 100%); padding: 32px 16px;
+  }
+  main { width: 100%; max-width: 980px; margin: 0 auto; }
+  h1 { font-family: "EB Garamond", serif; font-style: italic; font-weight: 400; font-size: 44px; text-align: center; margin: 0; color: var(--hong); }
+  .phu { text-align: center; margin: 0 0 24px; opacity: .75; }
+  .the {
+    background: #fff; border: 1px solid var(--vien); border-radius: 18px; padding: 20px;
+    box-shadow: 0 10px 30px rgba(124, 106, 96, .15); margin-bottom: 18px;
+  }
+  input, select {
+    padding: 11px 14px; border: 1px solid var(--vien); border-radius: 12px; font: inherit; color: inherit; background: #fffcf8;
+  }
+  input:focus, select:focus { outline: 2px solid var(--hong); border-color: transparent; }
+  button {
+    border: 0; border-radius: 12px; padding: 11px 16px; font: inherit; font-weight: 700; cursor: pointer;
+    background: var(--hong); color: #fff;
+  }
+  button.phu-nut { background: #fff; color: var(--hong); border: 1px solid var(--hong); }
+  button:disabled { opacity: .45; pointer-events: none; }
+  .hang { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .hang input[type=search] { flex: 1; min-width: 180px; }
+  #o-dang-nhap .hang input { flex: 1; min-width: 200px; }
+  .loi { color: #b42318; margin: 10px 0 0; }
+  .cac-ben { margin-bottom: 18px; }
+  .cac-ben .the { margin: 0; }
+  .cac-ben h2 { margin: 0 0 14px; font-size: 19px; color: var(--hong); }
+  .so { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .so div { background: var(--hong-nhat); border-radius: 12px; padding: 10px 8px; text-align: center; }
+  .so b { display: block; font-size: 28px; line-height: 1.1; color: var(--hong); }
+  .so .den b { color: var(--xanh); }
+  .so span { font-size: 12.5px; opacity: .8; }
+  .ghi-chu { font-size: 13px; opacity: .7; margin: 10px 0 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+  th, td { text-align: left; padding: 9px 8px; border-top: 1px solid var(--vien); vertical-align: top; }
+  th { font-size: 12.5px; text-transform: uppercase; letter-spacing: .04em; opacity: .7; border-top: 0; }
+  td.so-nguoi { text-align: center; font-weight: 700; font-size: 16px; }
+  th.so-nguoi { text-align: center; }
+  td.ten { font-weight: 600; }
+  .nhan { display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: 12.5px; font-weight: 700; white-space: nowrap; }
+  .nhan.co { background: #e3f1e5; color: var(--xanh); }
+  .nhan.khong { background: #f6e3e3; color: #9b2c2c; }
+  .nhan.ben { background: var(--hong-nhat); color: var(--hong); }
+  td.luc { font-size: 13px; opacity: .7; white-space: nowrap; }
+  @media (max-width: 560px) {
+    body { padding: 20px 10px; }
+    h1 { font-size: 42px; }
+    .the { padding: 14px; }
+    th, td { padding: 9px 5px; }
+    td.luc { font-size: 12px; white-space: normal; }
+    .nhan { padding: 2px 7px; font-size: 12px; }
+  }
+  td .xoa { padding: 4px 9px; font-size: 12.5px; }
+  .phu-chu { font-size: 12.5px; opacity: .65; }
+  .cuon { overflow-x: auto; }
+  .trong-rong { opacity: .6; text-align: center; padding: 18px 0; }
+  .loi-chuc { border-top: 1px solid var(--vien); padding: 10px 0; display: flex; gap: 10px; align-items: flex-start; }
+  .loi-chuc:first-child { border-top: 0; }
+  .loi-chuc .nd { flex: 1; min-width: 0; }
+  .loi-chuc p { margin: 4px 0 0; white-space: pre-line; overflow-wrap: anywhere; }
+  .loi-chuc .xoa { padding: 4px 9px; font-size: 12.5px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Thống kê khách mời</h1>
+  <p class="phu"><b>Thiệp {{@ten-ben}}</b> — xác nhận tham dự và lời chúc trên thiệp {{Tên chú rể}} &amp; {{Tên cô dâu}}</p>
+
+  <section class="the" id="o-dang-nhap" hidden>
+    <form class="hang" id="form-mat-khau">
+      <input id="mat-khau" type="password" placeholder="Mật khẩu xem thống kê" autocomplete="current-password">
+      <button type="submit">Xem</button>
+    </form>
+    <p class="loi" id="loi" hidden></p>
+  </section>
+
+  <div id="noi-dung" hidden>
+    <div class="cac-ben" id="cac-ben"></div>
+
+    <section class="the">
+      <div class="hang" style="margin-bottom:12px">
+        <input type="search" id="tim" placeholder="Tìm theo tên…">
+        <select id="loc-di">
+          <option value="">Đến &amp; không đến</option>
+          <option value="co">Sẽ đến</option>
+          <option value="khong">Không đến</option>
+        </select>
+      </div>
+      <div class="hang" style="margin-bottom:6px">
+        <button class="phu-nut" id="nut-tai-lai">↻ Tải lại</button>
+        <button class="phu-nut" id="nut-csv">⬇ Tải file Excel (CSV)</button>
+        <span class="phu-chu" id="cap-nhat"></span>
+      </div>
+      <div class="cuon">
+        <table>
+          <thead><tr><th>Tên khách</th><th class="so-nguoi">Số người</th><th>Tham dự</th><th>Thời gian</th><th></th></tr></thead>
+          <tbody id="bang"></tbody>
+        </table>
+      </div>
+      <p class="trong-rong" id="trong-rong" hidden>Chưa có xác nhận nào.</p>
+    </section>
+
+    <section class="the">
+      <h2 style="margin:0 0 4px;font-size:19px;color:var(--hong)">Sổ lưu bút <span class="phu-chu" id="so-loi-chuc"></span></h2>
+      <p class="phu-chu" style="margin:0 0 10px">Lời chúc khách gửi trên thiệp (chung cho nhà trai và nhà gái). Lời chúc bị xoá sẽ không hiện trên thiệp nữa.</p>
+      <div id="ds-loi-chuc"></div>
+      <p class="trong-rong" id="trong-loi-chuc" hidden>Chưa có lời chúc nào.</p>
+    </section>
+  </div>
+</main>
+
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var BEN = '{{@ben}}';
+  var KHOA_MAT_KHAU = 'thiep-cuoi-mat-khau-thong-ke-' + BEN;
+  var API = new URL('{{@duong-dan-goc}}api/thong-ke', location.href);
+  var tatCa = [];
+
+  function goi(body) {
+    body.ben = BEN;
+    body.matKhau = $('mat-khau').value || localStorage.getItem(KHOA_MAT_KHAU) || '';
+    return fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+      .then(function (r) {
+        return r.json().catch(function () { return {}; }).then(function (d) {
+          if (r.status === 401) { localStorage.removeItem(KHOA_MAT_KHAU); throw { canMatKhau: true, loi: d.loi }; }
+          if (!r.ok) throw { loi: d.loi || 'Máy chủ lỗi ' + r.status };
+          if (body.matKhau) localStorage.setItem(KHOA_MAT_KHAU, body.matKhau);
+          return d;
+        });
+      });
+  }
+  function baoLoi(e) {
+    $('o-dang-nhap').hidden = false;
+    var l = $('loi');
+    l.hidden = !(e && e.loi) && !(e && e.canMatKhau && $('mat-khau').value);
+    l.textContent = (e && e.loi) || 'Không kết nối được máy chủ.';
+    if (e && e.canMatKhau) { $('noi-dung').hidden = true; $('mat-khau').focus(); }
+  }
+  function tai(body) {
+    return goi(body || {}).then(function (d) {
+      tatCa = moiNhat(d.danhSach || []);
+      veLoiChuc(d.loiChuc || []);
+      $('o-dang-nhap').hidden = true;
+      $('noi-dung').hidden = false;
+      $('cap-nhat').textContent = 'Cập nhật lúc ' + new Date().toLocaleTimeString('vi-VN');
+      ve();
+    }, baoLoi);
+  }
+
+  // Máy chủ lưu mỗi khách một bản ghi (gửi lại thì ghi đè); lọc thêm ở đây cho chắc: cùng tên chỉ giữ lần mới nhất
+  function khoaKhach(x) { return String(x.ten).normalize('NFC').toLowerCase().replace(/\s+/g, ' ').trim(); }
+  function moiNhat(ds) {
+    var daGap = {};
+    return ds.filter(function (x) { // ds đã xếp mới nhất trước
+      var k = khoaKhach(x), cu = daGap[k]; daGap[k] = true;
+      return !cu;
+    });
+  }
+
+  function veTongKet() {
+    var o = $('cac-ben'); o.innerHTML = '';
+    [''].forEach(function () {
+      var ds = tatCa;
+      var den = ds.filter(function (x) { return x.thamDu === 'co'; });
+      var nguoi = den.reduce(function (t, x) { return t + (+x.soNguoi || 0); }, 0);
+      var the = document.createElement('section'); the.className = 'the';
+      the.innerHTML = '<h2></h2><div class="so"><div><b></b><span>khách xác nhận tham gia</span></div>'
+        + '<div class="den"><b></b><span>người sẽ tham gia</span></div><div><b></b><span>khách không tham gia</span></div></div><p class="ghi-chu"></p>';
+      the.querySelector('h2').textContent = 'Thiệp {{@ten-ben}}';
+      var so = the.querySelectorAll('.so b');
+      so[0].textContent = den.length; so[1].textContent = nguoi; so[2].textContent = ds.length - den.length;
+      the.querySelector('.ghi-chu').textContent = ds.length + ' khách đã phản hồi';
+      o.appendChild(the);
+    });
+  }
+
+  function locDanhSach() {
+    var tim = $('tim').value.normalize('NFC').toLowerCase().trim();
+    var di = $('loc-di').value;
+    return tatCa.filter(function (x) {
+      return (!di || x.thamDu === di)
+        && (!tim || String(x.ten).normalize('NFC').toLowerCase().indexOf(tim) >= 0);
+    });
+  }
+  function thoiGian(x) { return new Date(x.luc).toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh', dateStyle: 'short', timeStyle: 'short' }); }
+
+  function ve() {
+    veTongKet();
+    var ds = locDanhSach(), bang = $('bang');
+    bang.innerHTML = '';
+    $('trong-rong').hidden = ds.length > 0;
+    ds.forEach(function (x) {
+      var tr = document.createElement('tr');
+      var o = function (chu, lop) { var td = document.createElement('td'); td.textContent = chu; if (lop) td.className = lop; tr.appendChild(td); return td; };
+      var tdTen = o(x.ten, 'ten');
+      if (x.loiNhan) { var gc = document.createElement('div'); gc.className = 'phu-chu'; gc.style.fontWeight = '400'; gc.style.whiteSpace = 'pre-line'; gc.textContent = '“' + x.loiNhan + '”'; tdTen.appendChild(gc); }
+      o(x.thamDu === 'co' ? String(x.soNguoi) : '–', 'so-nguoi');
+      var tdDi = o(''); var nd = document.createElement('span'); nd.className = 'nhan ' + x.thamDu; nd.textContent = x.thamDu === 'co' ? 'Sẽ đến' : 'Không đến'; tdDi.appendChild(nd);
+      o(thoiGian(x), 'luc');
+      var tdXoa = o('');
+      var nut = document.createElement('button'); nut.className = 'phu-nut xoa'; nut.textContent = 'Xoá';
+      nut.onclick = function () {
+        if (!confirm('Xoá xác nhận của "' + x.ten + '"?')) return;
+        nut.disabled = true;
+        tai({ xoa: x.khoa });
+      };
+      tdXoa.appendChild(nut);
+      bang.appendChild(tr);
+    });
+  }
+
+  function veLoiChuc(ds) {
+    var o = $('ds-loi-chuc');
+    o.innerHTML = '';
+    $('trong-loi-chuc').hidden = ds.length > 0;
+    $('so-loi-chuc').textContent = ds.length ? '(' + ds.length + ')' : '';
+    ds.forEach(function (x) {
+      var d = document.createElement('div'); d.className = 'loi-chuc';
+      d.innerHTML = '<div class="nd"><b></b> <span class="phu-chu"></span><p></p></div>';
+      d.querySelector('b').textContent = x.ten;
+      d.querySelector('.phu-chu').textContent = thoiGian(x) + (x.ben === 'nha-gai' ? ' · thiệp nhà gái' : ' · thiệp nhà trai');
+      d.querySelector('p').textContent = x.loiChuc;
+      var nut = document.createElement('button'); nut.className = 'phu-nut xoa'; nut.textContent = 'Xoá';
+      nut.onclick = function () {
+        if (!confirm('Xoá lời chúc của "' + x.ten + '"?')) return;
+        nut.disabled = true;
+        tai({ xoa: x.khoa });
+      };
+      d.appendChild(nut);
+      o.appendChild(d);
+    });
+  }
+
+  // CSV có BOM để Excel đọc đúng tiếng Việt
+  function taiCsv() {
+    var o = function (s) { s = String(s == null ? '' : s); return /[",\n;]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; };
+    var dong = [['Tên khách', 'Số người', 'Tham dự', 'Thời gian']].concat(locDanhSach().map(function (x) {
+      return [x.ten, x.thamDu === 'co' ? x.soNguoi : 0, x.thamDu === 'co' ? 'Sẽ đến' : 'Không đến', thoiGian(x)];
+    }));
+    var blob = new Blob(['﻿' + dong.map(function (d) { return d.map(o).join(','); }).join('\r\n')], { type: 'text/csv;charset=utf-8' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'xac-nhan-tham-du-' + BEN + '-' + new Date().toISOString().slice(0, 10) + '.csv';
+    document.body.appendChild(a); a.click(); a.remove();
+  }
+
+  $('form-mat-khau').onsubmit = function (e) { e.preventDefault(); tai(); };
+  ['tim', 'loc-di'].forEach(function (id) { $(id).addEventListener('input', ve); $(id).addEventListener('change', ve); });
+  $('nut-tai-lai').onclick = function () { tai(); };
+  $('nut-csv').onclick = taiCsv;
+  tai();
+})();
+</script>
+</body>
+</html>

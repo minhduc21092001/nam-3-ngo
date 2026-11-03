@@ -1,0 +1,15 @@
+{
+  "name": "thiep-cuoi-online",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Thiệp cưới online: sửa noi-dung.md và ảnh trong anh/, chạy build để tạo website/, đăng lên Cloudflare Workers",
+  "scripts": {
+    "build": "node build.js",
+    "dev": "node build.js --serve",
+    "cf-dev": "node build.js && npx wrangler dev --port 8788",
+    "deploy": "node build.js && npx wrangler deploy"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
